@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:threads/Widgets/AuthenticationWidget.dart';
+import 'package:threads/screens/AuthenticationScreen.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: AuthenticationWidget(),
-    debugShowCheckedModeBanner: false,
+    home: AuthenticationScreen(),
+    debugShowCheckedModeBanner: false, 
   ));
 }
