@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:threads/components/HomeAppBar.dart';
-import 'package:threads/components/SponsoredWidget.dart';
-import 'package:threads/components/ConvoWidget.dart';
+import 'package:threads/components/home_app_bar.dart';
+import 'package:threads/components/sponsored_widget.dart';
+import 'package:threads/components/convo_widget.dart';
 import 'package:threads/services/home_screen_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
