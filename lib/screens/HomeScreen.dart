@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:threads/components/HomeAppBar.dart';
 import 'package:threads/components/SponsoredWidget.dart';
 import 'package:threads/components/ConvoWidget.dart';
-
+import 'package:threads/services/home_screen_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,12 +12,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final HomeScreenViewModel viewModel = const HomeScreenViewModel();
+
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: HomeAppBar(),
+        appBar: const HomeAppBar(),
         body: Padding(
           padding: EdgeInsets.all(16.0),
           child: TabBarView(
@@ -28,25 +30,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Sponsored",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        SizedBox(height: 20.0),
-                        SponseredWidget(),
-                        SizedBox(height: 20.0),
-                        Text(
+                        const SizedBox(height: 20.0),
+                        const SponseredWidget(),
+                        const SizedBox(height: 20.0),
+                        const Text(
                           "More Conversations",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Column(
-                          children: [
-                            ConvoWidget(imageURL: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80", recipient: "Brendan Aranoff", date: "Fri", lastMessage: "What's the plan?"),
-                            ConvoWidget(imageURL: "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80", recipient: "Hailey Cook", date: "Mon", lastMessage: "Thank you!")
-                          ],
-                        )
+                        FutureBuilder(
+                            future: viewModel.fetchFriends(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                    children: snapshot.data!
+                                        .map((friend) =>
+                                            ConvoWidget.fromFriend(friend))
+                                        .toList());
+                              } else {
+                                return const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Center(
+                                        child: CircularProgressIndicator()));
+                              }
+                            }),
                       ],
                     )
                   ],
@@ -62,4 +74,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

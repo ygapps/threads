@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:threads/models/friend.dart';
 
 class ConvoWidget extends StatelessWidget {
   const ConvoWidget({
@@ -8,6 +9,12 @@ class ConvoWidget extends StatelessWidget {
     this.date = "Date",
     this.lastMessage = "Last Message",
   });
+
+  ConvoWidget.fromFriend(Friend friend, {super.key})
+      : imageURL = friend.imageURL,
+        recipient = friend.name,
+        date = friend.lastMessageTime,
+        lastMessage = friend.lastMessage;
 
   final String imageURL;
   final String recipient;
@@ -25,19 +32,19 @@ class ConvoWidget extends StatelessWidget {
           height: 50,
           child: Row(
             children: [
-              CircleAvatar(backgroundImage: NetworkImage(imageURL), radius: 30.0,),
+              CircleAvatar(
+                backgroundImage: NetworkImage(imageURL),
+                radius: 30.0,
+              ),
               const SizedBox(
                 width: 8.0,
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           recipient,
